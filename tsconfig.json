@@ -12,7 +12,7 @@
         "sourceMap": true,
         "moduleResolution": "bundler",
         "module": "preserve",
-        "noImplicitAny": false, //временно
+        "noImplicitAny": true,
         "types": [
             "node"
         ]

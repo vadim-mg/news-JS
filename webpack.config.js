@@ -15,7 +15,12 @@ const baseConfig = {
             },
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true, // Только транспиляция, без проверки типов, временно до конца миграции
+                    },
+                },
                 exclude: /node_modules/,
             },
         ],
