@@ -10,11 +10,15 @@ class App {
         this.view = new AppView();
     }
 
-    start() {
-        const sources = document.querySelector('.sources');
+    start(): void {
+        const sources = document.querySelector<HTMLElement>('.sources');
+
         if (sources) {
-            sources.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
+            sources.addEventListener('click', (e) => {
+                this.controller.getNews(e, (data) => this.view.drawNews(data));
+            });
         }
+
         this.controller.getSources((data) => this.view.drawSources(data));
     }
 }
