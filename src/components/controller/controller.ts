@@ -1,37 +1,35 @@
 import AppLoader from './appLoader';
+import type { ArticlesResponseOk, SourcesResponseOk } from '../../types/api';
 
 class AppController extends AppLoader {
-    getSources(callback) {
-        super.getResp(
-            {
-                endpoint: 'sources',
-            },
-            callback
-        );
+    getSources(callback: (data: SourcesResponseOk) => void): void {
+        super.getResp<SourcesResponseOk>({ endpoint: 'sources' }, callback);
     }
 
-    getNews(e, callback) {
-        let target = e.target;
-        const newsContainer = e.currentTarget;
+    getNews(e: MouseEvent, callback: (data: ArticlesResponseOk) => void): void {
+        let target = e.target as HTMLElement | null;
+        const newsContainer = e.currentTarget as HTMLElement | null;
 
-        while (target !== newsContainer) {
+        if (!target || !newsContainer) return;
+
+        while (target && target !== newsContainer) {
             if (target.classList.contains('source__item')) {
                 const sourceId = target.getAttribute('data-source-id');
+                if (!sourceId) return;
+
                 if (newsContainer.getAttribute('data-source') !== sourceId) {
                     newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp(
+                    super.getResp<ArticlesResponseOk>(
                         {
                             endpoint: 'everything',
-                            options: {
-                                sources: sourceId,
-                            },
+                            options: { sources: sourceId },
                         },
                         callback
                     );
                 }
                 return;
             }
-            target = target.parentNode;
+            target = target.parentElement;
         }
     }
 }
