@@ -1,6 +1,7 @@
 import './news.css';
+import type { Article } from '../../../types/api';
 
-function qs<T extends Element = Element>(root: ParentNode, selector: string): T {
+function qs<T extends Element = HTMLElement>(root: ParentNode, selector: string): T {
     const el = root.querySelector<T>(selector);
     if (!el) {
         throw new Error(`Element not found: ${selector}`);
@@ -9,18 +10,20 @@ function qs<T extends Element = Element>(root: ParentNode, selector: string): T 
 }
 
 class News {
-    draw(data) {
-        const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+    draw(data: Article[]): void {
+        const news = data.slice(0, 10);
 
         const fragment = document.createDocumentFragment();
-        const newsItemTemp = document.querySelector<HTMLTemplateElement>('#newsItemTemp');
-        if (!newsItemTemp) return;
+        const newsItemTemp = qs<HTMLTemplateElement>(document, '#newsItemTemp');
 
         news.forEach((item, idx) => {
             const newsClone = newsItemTemp.content.cloneNode(true) as DocumentFragment;
 
-            if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
-            qs<HTMLElement>(newsClone, '.news__meta-photo').style.backgroundImage = `url(${
+            if (idx % 2) {
+                qs(newsClone, '.news__item').classList.add('alt');
+            }
+
+            qs(newsClone, '.news__meta-photo').style.backgroundImage = `url(${
                 item.urlToImage || 'img/news_placeholder.jpg'
             })`;
             qs(newsClone, '.news__meta-author').textContent = item.author || item.source.name;
@@ -38,10 +41,7 @@ class News {
             fragment.append(newsClone);
         });
 
-        const newsList = document.querySelector('.news');
-        if (!newsList) return;
-        newsList.innerHTML = '';
-        newsList.appendChild(fragment);
+        qs(document, '.news').replaceChildren(fragment);
     }
 }
 

@@ -1,14 +1,14 @@
 import './sources.css';
+import type { Source } from '../../../types/api';
 
 class Sources {
-    draw(data) {
+    draw(data: Source[]): void {
         const fragment = document.createDocumentFragment();
         const sourceItemTemp = document.querySelector<HTMLTemplateElement>('#sourceItemTemp');
         if (!sourceItemTemp) return;
 
         data.forEach((item) => {
             const sourceClone = sourceItemTemp.content.cloneNode(true) as DocumentFragment;
-            if (!sourceClone) return;
 
             const nameEl = sourceClone.querySelector('.source__item-name');
             if (nameEl) nameEl.textContent = item.name;
