@@ -1,7 +1,13 @@
 import type { ApiErrorResponse } from '../../types/api';
 
 type RequestOptions = Record<string, string | number>;
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export enum HttpMethod {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    DELETE = 'DELETE',
+    PATCH = 'PATCH',
+}
 
 type ApiOkResponse = { status: 'ok' };
 type ApiResponse = ApiOkResponse | ApiErrorResponse;
@@ -26,13 +32,13 @@ class Loader {
             console.error('No callback for GET response');
         }
     ): void {
-        this.load<T>('GET', endpoint, callback, options);
+        this.load<T>(HttpMethod.GET, endpoint, callback, options);
     }
 
     errorHandler(res: Response): Response {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404) {
-                console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
+                console.error(`Sorry, but there is ${res.status} error: ${res.statusText}`);
             }
             throw Error(res.statusText);
         }
