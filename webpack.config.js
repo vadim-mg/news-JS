@@ -18,7 +18,7 @@ const baseConfig = {
                 use: {
                     loader: 'ts-loader',
                     options: {
-                        transpileOnly: true, // Только транспиляция, без проверки типов, временно до конца миграции
+                        // transpileOnly: true, // Только транспиляция, без проверки типов, временно до конца миграции
                     },
                 },
                 exclude: /node_modules/,
