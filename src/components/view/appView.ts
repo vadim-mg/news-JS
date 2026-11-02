@@ -13,10 +13,18 @@ export class AppView {
 
     drawNews(data: { articles: Article[] }): void {
         this.news.draw(data.articles);
+        this.scrollToNews();
     }
 
     drawSources(data: { sources: Source[] }): void {
         this.sources.draw(data.sources);
+    }
+
+    private scrollToNews(): void {
+        const newsContainer = document.querySelector<HTMLElement>('.news');
+        if (newsContainer) {
+            newsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 }
 
