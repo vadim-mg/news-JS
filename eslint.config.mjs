@@ -6,7 +6,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 
 export default defineConfig([
-    globalIgnores(['webpack.config.js', 'webpack.dev.config.js']),
+    globalIgnores(['webpack.config.js', 'webpack.dev.config.js', 'dist/**']),
     js.configs.recommended,
     ...tseslint.configs.recommended,
     prettierRecommended, // заменяет FlatCompat + eslint-config-prettier
@@ -18,7 +18,7 @@ export default defineConfig([
         },
         rules: {
             'no-debugger': 'off',
-            'no-console': 0,
+            'no-console': ['error', { allow: ['error'] }],
             'class-methods-use-this': 'off',
         },
     },
